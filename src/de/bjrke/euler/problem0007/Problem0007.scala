@@ -1,5 +1,8 @@
 package de.bjrke.euler.problem0007
 
+/**
+ * result is 104743
+ */
 object Problem0007 {
   def main(args : Array[String]) : Unit = {
     val a: List[Long] = List( 3, 2)

@@ -2,6 +2,9 @@ package de.bjrke.euler.problem0003
 
 import de.bjrke.euler.problem0007.Problem0007
 
+/**
+ * result: 6857
+ */
 object Problem0003 {
   def main(args : Array[String]) : Unit = {
     println(largestPrimeFactor(600851475143L, List( 3, 2 )))    

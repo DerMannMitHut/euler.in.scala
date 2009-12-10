@@ -1,5 +1,8 @@
 package de.bjrke.euler.problem0002
 
+/**
+ * result: 4613732
+ */
 object Problem0002 {
   def main(args : Array[String]) : Unit = {
     println(sum(0, fibtupel(0,1)))

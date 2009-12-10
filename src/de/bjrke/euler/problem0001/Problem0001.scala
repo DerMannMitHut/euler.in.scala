@@ -1,5 +1,8 @@
 package de.bjrke.euler.problem0001;
 
+/**
+ * result: 233168
+ */
 object Problem0001 {
   def main(args : Array[String]) : Unit = {
     val result = (0 to 999).toList.filter( isMultipleOf3Or5(_)).foldLeft(0) { _ + _ }
