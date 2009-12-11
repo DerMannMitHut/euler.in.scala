@@ -5,24 +5,38 @@ package de.bjrke.euler.problem0007
  */
 object Problem0007 {
   def main(args : Array[String]) : Unit = {
-    val a: List[Long] = List( 3, 2)
-    println(findPrime(10001,a))
+    println(findPrime1(10001,List(2)))
   }  
   
-  def findPrime(number: Long, primes: List[Long]) : Long = {
+  def findPrime1(number: Long, primes: List[Long]) : Long = {
     if ( primes.size == number ) {
-      primes.head
+      primes.last
     } else {
-      findPrime(number, nextPrime(primes) :: primes)
+      findPrime1(number, newPrime(primes))
     }
   }
-  def nextPrime( previous: List[Long] ) : Long = nextPrime( previous, previous.head )
-  def nextPrime( previous: List[Long], lastTested: Long ) : Long = {
-    val cand = lastTested + 2
-    if ( previous.exists ( cand % _ == 0 ) ) {
-      nextPrime( previous, cand )
+  
+  def newPrime( previous: List[Long] ) : List[Long] = newPrime( previous, previous.last + 1 )
+
+  def newPrime( previous: List[Long], last: Long ) : List[Long] = {
+    if ( isPrime(previous, last) ) {
+      previous ::: List(last)
     } else {
-      cand
+      newPrime(previous, last+1)
     }
   }
+  
+  def isPrime( previous: List[Long], cand: Long ) : Boolean = {
+    var isPrime = true;
+    previous.forall( a => {
+      if ( a * a > cand ) {
+        false
+      } else {
+        isPrime = cand % a != 0
+        isPrime
+      }
+    })
+    isPrime
+  }
+
 }
