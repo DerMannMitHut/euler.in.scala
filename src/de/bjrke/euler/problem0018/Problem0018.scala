@@ -30,14 +30,15 @@ object Problem0018 {
       Array(63, 66,  4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31),
       Array( 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23)
     )
-    
-    val triangle = t2.reverse
-
-    val result = triangle.tail.foldLeft(triangle.head) { (currentSum, currentRow) => {
-      Array.fromFunction( { n : Int => 
-        currentRow.apply( n ) + Math.max( currentSum.apply( n ), currentSum.apply( n + 1 )) } ) ( currentRow.length )
-    } }
-    println(result.apply(0))
+    calculate( t2 )
   }
 
+  def calculate( triangle : List[Array[Int]] ) {
+    val reverted = triangle.reverse
+
+    println( reverted.tail.foldLeft(reverted.head) { (currentSum, currentRow) => {
+      Array.fromFunction( { n : Int => 
+        currentRow.apply( n ) + Math.max( currentSum.apply( n ), currentSum.apply( n + 1 )) } ) ( currentRow.length )
+    } }.apply(0) )
+  }
 }
