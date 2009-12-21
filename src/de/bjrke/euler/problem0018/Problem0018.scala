@@ -13,7 +13,7 @@ object Problem0018 {
       Array(8, 5, 9, 3)
     )
 
-    val t2 = List(      
+    val t2 = List(
       Array(75),
       Array(95, 64),
       Array(17, 47, 82),
