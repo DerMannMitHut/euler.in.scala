@@ -25,18 +25,38 @@ object BigNum {
 
 private[bignum] class BigNum() {
 
-  private[bignum] val _reversed : Array[Int] = Array()
+  private[bignum] val _reversed = new Array[Int]( 0 )
+
+  private lazy val _normalized = normalize( checked( _reversed ) )
+
+  private def normalize( a : Array[Int] ) : Array[Int] = {
+    val l = a.length
+    if ( l == 0 || a.apply( l - 1 ) > 0 ) {
+      a
+    } else {
+      normalize( a.take( l - 1 ) )
+    }
+  }
+
+  private def checked( a : Array[Int] ) =
+    a.filter( v => 
+      if ( v < 0 || v > 9 ) { 
+        throw new IllegalStateException 
+      } else {
+        true
+      }
+    )
 
   def digit( pos: Int ) : Int = {
-    if( _reversed.length <= pos ) {
+    if( _normalized.length <= pos ) {
       0
     } else {
-      _reversed.apply(pos)
+      _normalized.apply(pos)
     }
   }
 
   def + ( that : BigNum ) : BigNum = {
-    val l = Math.max( _reversed.length, that._reversed.length )
+    val l = Math.max( _normalized.length, that._normalized.length )
     val result = new Array[Int](l)
     var uber = 0
     for ( i <- 0 until l ) {
@@ -52,7 +72,7 @@ private[bignum] class BigNum() {
   }
 
   private def shiftLeftTen( pos : Int ) : BigNum = {
-    BigNum( Array.make( pos, 0 ) ++ _reversed )
+    BigNum( Array.make( pos, 0 ) ++ _normalized )
   }
 
   def intMul( factor : Int ) : BigNum = {
@@ -71,15 +91,17 @@ private[bignum] class BigNum() {
 
   def * ( that : BigNum ) : BigNum = {
     var result = BigNum.BIGZERO
-    for ( i <- 0 until _reversed.length ) {
+    for ( i <- 0 until _normalized.length ) {
       result += that.intMul( digit(i) ).shiftLeftTen( i )
     }
     result
   }
 
   override def toString  =
-    new String( _reversed.map( a => ( BigNum.ZERO + a ).toChar ) ).reverse     
+    new String( _normalized.map( a => ( BigNum.ZERO + a ).toChar ) ).reverse     
 
-  def toList = _reversed.reverse.toList
+  def toList = _normalized.reverse.toList
+
+  def numOfDigits = _normalized.length
 
 }
