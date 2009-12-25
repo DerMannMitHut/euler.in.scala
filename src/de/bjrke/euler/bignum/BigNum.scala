@@ -18,12 +18,14 @@ object BigNum {
       override val _reversed = s.reverse.toArray.map( _.toInt - ZERO )
     }
 
+  def apply( i : Int ) : BigNum = BigNum( i.toString )
+
   val BIGZERO = BigNum( "0" )
   val BIGONE = BigNum( "1" )
 
 }
 
-private[bignum] class BigNum() {
+class BigNum() {
 
   private[bignum] val _reversed = new Array[Int]( 0 )
 
@@ -98,10 +100,33 @@ private[bignum] class BigNum() {
   }
 
   override def toString  =
-    new String( _normalized.map( a => ( BigNum.ZERO + a ).toChar ) ).reverse     
+    new String( _normalized.map( a => ( BigNum.ZERO + a ).toChar ) ).reverse
 
   def toList = _normalized.reverse.toList
 
   def numOfDigits = _normalized.length
+
+  override def equals( that : Any ) : Boolean = {
+    return that != null && that.isInstanceOf[BigNum] && this._normalized.toList == that.asInstanceOf[BigNum]._normalized.toList
+  }
+
+  override def hashCode : Int = {
+    247 + _normalized.toList.hashCode
+  }
+
+  def pot( y : Int ) : BigNum = 
+    if ( y == 0 ) {
+      BigNum.BIGONE
+    } else if ( y < 0 ) {
+      throw new IllegalStateException
+    } else {
+      val result = ( this * this ).pot( y / 2 )
+      if ( y % 2 == 0 ) {
+      result
+      } else {
+      this * result
+      }
+    }
+  
 
 }
