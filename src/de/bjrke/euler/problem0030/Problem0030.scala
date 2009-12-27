@@ -15,6 +15,8 @@
  */
 package de.bjrke.euler.problem0030
 
+import de.bjrke.euler.digits.Digits
+
 object Problem0030 {
   def main(args : Array[String]) : Unit = {
     val result = ( 10 to 1000000 ).foldLeft( 0 ) { (s,i) =>
@@ -29,7 +31,7 @@ object Problem0030 {
   }
 
   def calc( i : Int ) : Int =
-    toDigits( i ).foldLeft( 0 ) { (s,a) => s + pow( a, 5 ) }
+    Digits.toDigits( i ).foldLeft( 0 ) { (s,a) => s + pow( a, 5 ) }
 
   def pow( i : Int, j : Int ) : Int = {
     if ( j == 0 ) {
@@ -43,8 +45,5 @@ object Problem0030 {
       }
     }
   }
-
-  def toDigits( i : Int ) : Seq[Int] =
-    i.toString.map( _.toInt - '0'.toInt )
 
 }
